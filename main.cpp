@@ -1,16 +1,12 @@
-//#include "UCSearch.h"
+#include "UCSearch.h"
 //#include "ASMTHeuristic.h"
 //#include "ASEDHeuristic.h"
+#include "node.h"
 
 #include <iostream>
 #include <string>
 
 using namespace std;
-
-const int BOARD_SIZE_X = 3;
-const int BOARD_SIZE_Y = 3;
-
-bool insertToArray(int (*array)[][BOARD_SIZE_Y], string input);
 
 int main() {
     int board[BOARD_SIZE_X][BOARD_SIZE_Y];
@@ -30,11 +26,6 @@ int main() {
             puzzleinput = puzzleinput.substr(index + 1);
         }
     }
-    // for(int i = 0; i < BOARD_SIZE_X; ++i) {
-    //     for(int j = 0; j < BOARD_SIZE_Y; ++j){
-    //         cout<<board[i][j];
-    //     }
-    // }
 
     cout<< "Enter your choice of algorithm:\n"
         << "1) Uniform Cost Search\n"
@@ -42,9 +33,14 @@ int main() {
         << "3) A* with Euclidian Distance heuristic\n";
     cin>> useroption;
 
+    //generate start node
+    Node *startNode = new Node(board);
+
     switch(useroption){
         case 1:
             cout<< "Running Uniform Cost Search...\n";
+            //call function
+            UCSearch(startnode);
             break;
         case 2:
             cout<< "Running A* with Misplaced Tile heuristic...\n";
