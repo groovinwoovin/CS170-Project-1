@@ -1,20 +1,24 @@
 #ifndef __NODE_H__
 #define __NODE_H__
 
-extern const int BOARD_SIZE_X = 3;
-extern const int BOARD_SIZE_Y = 3;
+const int NODE_BOARD_SIZE_X = 3;
+const int NODE_BOARD_SIZE_Y = 3;
 
 class Node {
 public:
-    int board[BOARD_SIZE_X][BOARD_SIZE_Y];
+    int board[NODE_BOARD_SIZE_X][NODE_BOARD_SIZE_Y];
     int g_n;
     int h_n;
 
     Node();
-    void setBoard(int array[BOARD_SIZE_X][BOARD_SIZE_Y]);
+
+    void setBoard(int array[NODE_BOARD_SIZE_X][NODE_BOARD_SIZE_Y]);
     void setg_n(int g);
     void seth_n(int h);
     void createChildren();
+    void printNode();
+
+    bool operator<(const Node& rhs) const;
 
     Node* parent;
 

@@ -8,6 +8,9 @@
 
 using namespace std;
 
+const int BOARD_SIZE_X = 3;
+const int BOARD_SIZE_Y = 3;
+
 int main() {
     int board[BOARD_SIZE_X][BOARD_SIZE_Y];
     string puzzleinput;
@@ -34,13 +37,16 @@ int main() {
     cin>> useroption;
 
     //generate start node
-    Node *startNode = new Node(board);
+    Node *startNode;
+    startNode = new Node();
+    startNode->setBoard(board);
+    startNode->printNode();
 
     switch(useroption){
         case 1:
             cout<< "Running Uniform Cost Search...\n";
             //call function
-            UCSearch(startnode);
+            UCSearch(startNode);
             break;
         case 2:
             cout<< "Running A* with Misplaced Tile heuristic...\n";
