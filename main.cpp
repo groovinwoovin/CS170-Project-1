@@ -8,6 +8,7 @@
 
 using namespace std;
 
+//Change TOGETHER with node.h
 const int BOARD_SIZE_X = 3;
 const int BOARD_SIZE_Y = 3;
 
@@ -16,8 +17,9 @@ int main() {
     string puzzleinput;
     int useroption;
 
-    cout<< "Welcome to 862039652's 8 puzzle solver!\n";
-    cout<< "Enter your puzzle, using a zero to represent the blank\n";
+    cout << "Welcome to 862039652's 8 puzzle solver!\n";
+    cout << "Enter your puzzle, using a zero to represent the blank\n"
+         << "Ex: 1 2 3 4 5 6 7 8 0\n";
     std::getline(cin, puzzleinput);
 
     //cut up temp and insert into array
@@ -45,7 +47,6 @@ int main() {
     switch(useroption){
         case 1:
             cout<< "Running Uniform Cost Search...\n";
-            //call function
             UCSearch(startNode);
             break;
         case 2:

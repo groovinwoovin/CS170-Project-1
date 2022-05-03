@@ -19,6 +19,14 @@ Node::Node(){
     right = nullptr;
 }
 
+Node::~Node() {
+    delete parent;
+    delete up;
+    delete down;
+    delete left;
+    delete right;
+}
+
 bool Node::operator<(const Node &rhs) const{
     return (this->g_n + this->h_n) < (rhs.g_n + rhs.h_n);
 }
@@ -121,7 +129,7 @@ void Node::printNode(){
     if(this != nullptr){
         for(int i = 0; i < NODE_BOARD_SIZE_X; ++i){
             for(int j = 0; j < NODE_BOARD_SIZE_Y; ++j){
-                cout<< board[i][j]<< ",";
+                cout<< board[i][j];
             }
             cout<< endl;
         }

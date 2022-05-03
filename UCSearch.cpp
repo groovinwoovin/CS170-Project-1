@@ -8,6 +8,12 @@ using namespace std;
 //vector for the frontier
 std::priority_queue<Node*, std::vector<Node*>, std::greater<Node*>> UCfrontier;
 std::vector<Node*> explored_set_UC;
+
+// toggle debugUC if you would like to see the queue size
+std::vector<int> queuesizesUC;
+bool debugUC = true;
+int nodesExpUC = 0;
+
 Node* currentNodeUC;
 
 void UCSearch(Node* startnode){
@@ -23,6 +29,10 @@ void UCSearch(Node* startnode){
 
     UCfrontier.push(startnode); //Add initial node to frontier
 
+    if (debugUC) { //debugUC
+        queuesizesUC.push_back(UCfrontier.size());
+    }
+
     // POP top, if goal state, end else create children and add those to frontier
     while(!UCfrontier.top()->checkIfGoal()){
         if (std::find(explored_set_UC.begin(), explored_set_UC.end(), UCfrontier.top()) != explored_set_UC.end()) {
@@ -31,6 +41,10 @@ void UCSearch(Node* startnode){
         else {
             currentNodeUC = UCfrontier.top();
             currentNodeUC->createChildren();
+            
+            if (debugUC) {
+                nodesExpUC++;
+            }
 
             //Set g_n and h_n for children
             if (currentNodeUC->up != nullptr) {
@@ -70,10 +84,18 @@ void UCSearch(Node* startnode){
                 UCfrontier.push(currentNodeUC->right);
             }
         }
+        if (debugUC) {
+            queuesizesUC.push_back(UCfrontier.size());
+        }
     }
 
     std::cout << "Solution is: \n";
     currentNodeUC = UCfrontier.top();
     currentNodeUC->printOutput();
+
+    if (debugUC) {
+        cout << "Max number of nodes is: " << *max_element(queuesizesUC.begin(), queuesizesUC.end());
+        cout << "\nExpanded nodes is: " << nodesExpUC;
+    }
 }
 

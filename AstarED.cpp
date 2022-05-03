@@ -8,6 +8,12 @@ using namespace std;
 //vector for the frontier
 std::priority_queue<Node*, std::vector<Node*>, std::greater<Node*>> EDfrontier;
 std::vector<Node*> explored_set_ED;
+
+// toggle debugED if you would like to see the queue size
+std::vector<int> queuesizesED;
+bool debugED = true;
+int nodesExpED = 0;
+
 Node* currentNodeED;
 
 void AstarED(Node* startnode) {
@@ -23,6 +29,10 @@ void AstarED(Node* startnode) {
 
     EDfrontier.push(startnode); //Add initial node to frontier
 
+    if (debugED) { //debugED
+        queuesizesED.push_back(EDfrontier.size());
+    }
+
     // POP top, if goal state, end else create children and add those to frontier
     while (!EDfrontier.top()->checkIfGoal()) {
         if (std::find(explored_set_ED.begin(), explored_set_ED.end(), EDfrontier.top()) != explored_set_ED.end()) {
@@ -31,6 +41,10 @@ void AstarED(Node* startnode) {
         else {
             currentNodeED = EDfrontier.top();
             currentNodeED->createChildren();
+
+            if (debugED) {
+                nodesExpED++;
+            }
 
             //Set g_n and h_n for children
             if (currentNodeED->up != nullptr) {
@@ -70,17 +84,26 @@ void AstarED(Node* startnode) {
                 EDfrontier.push(currentNodeED->right);
             }
         }
+        if (debugED) {
+            queuesizesED.push_back(EDfrontier.size());
+        }
     }
 
     std::cout << "Solution is: \n";
     currentNodeED = EDfrontier.top();
     currentNodeED->printOutput();
+
+    if (debugED) {
+        cout << "Max number of nodes is: " << *max_element(queuesizesED.begin(), queuesizesED.end());
+        cout << "\nExpanded nodes is: " << nodesExpED;
+    }
 }
 
 double calculateEDHeuristic(Node* node) {
     double heuristicTotal = 0.0;
     int x_dist = 0;
     int y_dist = 0;
+
     for (int i = 0; i < NODE_BOARD_SIZE_X; ++i) {
         for (int j = 0; j < NODE_BOARD_SIZE_Y; ++j) {
             if (node->board != 0 && node->board[i][j] != ((i * NODE_BOARD_SIZE_X) + j) + 1) {

@@ -2,6 +2,7 @@
 #define __NODE_H__
 #include <string>
 
+//Change TOGETHER with main.cpp
 const int NODE_BOARD_SIZE_X = 3;
 const int NODE_BOARD_SIZE_Y = 3;
 
@@ -15,6 +16,9 @@ public:
     //constructors
     Node();
 
+    //destructor
+    ~Node();
+
     void setBoard(int array[NODE_BOARD_SIZE_X][NODE_BOARD_SIZE_Y]);
     void setg_n(double g);
     void seth_n(double h);
@@ -27,14 +31,10 @@ public:
     bool checkIfGoal();
 
     Node* parent;
-
     Node* up;
     Node* down;
     Node* left;
     Node* right;
-
-    //destructors
-
 };
 
 #endif //__NODE_H__
