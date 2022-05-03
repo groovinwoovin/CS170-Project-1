@@ -8,16 +8,16 @@ const int NODE_BOARD_SIZE_Y = 3;
 class Node {
 public:
     int board[NODE_BOARD_SIZE_X][NODE_BOARD_SIZE_Y];
-    int g_n;
-    int h_n;
+    double g_n;
+    double h_n;
     std::string output;
 
     //constructors
     Node();
 
     void setBoard(int array[NODE_BOARD_SIZE_X][NODE_BOARD_SIZE_Y]);
-    void setg_n(int g);
-    void seth_n(int h);
+    void setg_n(double g);
+    void seth_n(double h);
     void setoutput(std::string input);
     void createChildren();
     void printNode();

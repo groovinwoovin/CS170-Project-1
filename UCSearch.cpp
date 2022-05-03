@@ -6,9 +6,9 @@
 using namespace std;
 
 //vector for the frontier
-std::priority_queue<Node*, std::vector<Node*>, std::greater<Node*>> frontier;
-std::vector<Node*> explored_set;
-Node* currentNode;
+std::priority_queue<Node*, std::vector<Node*>, std::greater<Node*>> UCfrontier;
+std::vector<Node*> explored_set_UC;
+Node* currentNodeUC;
 
 void UCSearch(Node* startnode){
     //Uniform cost search but bfs style, path costs still 1
@@ -21,59 +21,59 @@ void UCSearch(Node* startnode){
     startnode->seth_n(0);
     startnode->createChildren();
 
-    frontier.push(startnode); //Add initial node to frontier
+    UCfrontier.push(startnode); //Add initial node to frontier
 
     // POP top, if goal state, end else create children and add those to frontier
-    while(!frontier.top()->checkIfGoal()){
-        if (std::find(explored_set.begin(), explored_set.end(), frontier.top()) != explored_set.end()) {
-            frontier.pop();
+    while(!UCfrontier.top()->checkIfGoal()){
+        if (std::find(explored_set_UC.begin(), explored_set_UC.end(), UCfrontier.top()) != explored_set_UC.end()) {
+            UCfrontier.pop();
         }
         else {
-            currentNode = frontier.top();
-            currentNode->createChildren();
+            currentNodeUC = UCfrontier.top();
+            currentNodeUC->createChildren();
 
             //Set g_n and h_n for children
-            if (currentNode->up != nullptr) {
-                currentNode->up->setg_n(currentNode->g_n + 1);
-                currentNode->up->seth_n(0);
-                currentNode->up->setoutput(currentNode->output + "^ ");
+            if (currentNodeUC->up != nullptr) {
+                currentNodeUC->up->setg_n(currentNodeUC->g_n + 1);
+                currentNodeUC->up->seth_n(0);
+                currentNodeUC->up->setoutput(currentNodeUC->output + "^ ");
             }
-            if (currentNode->down != nullptr) {
-                currentNode->down->setg_n(currentNode->g_n + 1);
-                currentNode->down->seth_n(0);
-                currentNode->down->setoutput(currentNode->output + "v ");
+            if (currentNodeUC->down != nullptr) {
+                currentNodeUC->down->setg_n(currentNodeUC->g_n + 1);
+                currentNodeUC->down->seth_n(0);
+                currentNodeUC->down->setoutput(currentNodeUC->output + "v ");
             }
-            if (currentNode->left != nullptr) {
-                currentNode->left->setg_n(currentNode->g_n + 1);
-                currentNode->left->seth_n(0);
-                currentNode->left->setoutput(currentNode->output + "< ");
+            if (currentNodeUC->left != nullptr) {
+                currentNodeUC->left->setg_n(currentNodeUC->g_n + 1);
+                currentNodeUC->left->seth_n(0);
+                currentNodeUC->left->setoutput(currentNodeUC->output + "< ");
             }
-            if (currentNode->right != nullptr) {
-                currentNode->right->setg_n(currentNode->g_n + 1);
-                currentNode->right->seth_n(0);
-                currentNode->right->setoutput(currentNode->output + "> ");
+            if (currentNodeUC->right != nullptr) {
+                currentNodeUC->right->setg_n(currentNodeUC->g_n + 1);
+                currentNodeUC->right->seth_n(0);
+                currentNodeUC->right->setoutput(currentNodeUC->output + "> ");
             }
 
             //add top frontier to explored set and pop
-            explored_set.push_back(frontier.top());
-            frontier.pop();
-            if (currentNode->up != nullptr) {
-                frontier.push(currentNode->up);
+            explored_set_UC.push_back(UCfrontier.top());
+            UCfrontier.pop();
+            if (currentNodeUC->up != nullptr) {
+                UCfrontier.push(currentNodeUC->up);
             }
-            if (currentNode->down != nullptr) {
-                frontier.push(currentNode->down);
+            if (currentNodeUC->down != nullptr) {
+                UCfrontier.push(currentNodeUC->down);
             }
-            if (currentNode->left != nullptr) {
-                frontier.push(currentNode->left);
+            if (currentNodeUC->left != nullptr) {
+                UCfrontier.push(currentNodeUC->left);
             }
-            if (currentNode->right != nullptr) {
-                frontier.push(currentNode->right);
+            if (currentNodeUC->right != nullptr) {
+                UCfrontier.push(currentNodeUC->right);
             }
         }
     }
 
     std::cout << "Solution is: \n";
-    currentNode = frontier.top();
-    currentNode->printOutput();
+    currentNodeUC = UCfrontier.top();
+    currentNodeUC->printOutput();
 }
 

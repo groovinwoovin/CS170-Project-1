@@ -9,8 +9,8 @@ Node::Node(){
             board[i][j] = 0;
         }
     }
-    g_n = 0;
-    h_n = 0;
+    g_n = .0;
+    h_n = .0;
     output = "";
     parent = nullptr;
     up = nullptr;
@@ -31,11 +31,11 @@ void Node::setBoard(int array[NODE_BOARD_SIZE_X][NODE_BOARD_SIZE_Y]) {
     }
 }
 
-void Node::setg_n(int g){
+void Node::setg_n(double g){
     g_n = g;
 }
 
-void Node::seth_n(int h){
+void Node::seth_n(double h){
     h_n = h;
 }
 

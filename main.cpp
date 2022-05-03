@@ -1,6 +1,6 @@
 #include "UCSearch.h"
 #include "AstarMT.h"
-//#include "ASEDHeuristic.h"
+#include "AstarED.h"
 #include "node.h"
 
 #include <iostream>
@@ -50,9 +50,11 @@ int main() {
             break;
         case 2:
             cout<< "Running A* with Misplaced Tile heuristic...\n";
+            AstarMT(startNode);
             break;
         case 3:
             cout<< "Running A* with Euclidian Distance heuristic...\n";
+            AstarED(startNode);
             break;
         default:
             cout<< "That was not an option\n"; 
