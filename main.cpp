@@ -1,5 +1,5 @@
 #include "UCSearch.h"
-//#include "ASMTHeuristic.h"
+#include "AstarMT.h"
 //#include "ASEDHeuristic.h"
 #include "node.h"
 

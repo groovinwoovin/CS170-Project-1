@@ -4,10 +4,23 @@
 using namespace std;
 
 Node::Node(){
+    for (int i = 0; i < NODE_BOARD_SIZE_X; ++i) {
+        for (int j = 0; j < NODE_BOARD_SIZE_Y; ++j) {
+            board[i][j] = 0;
+        }
+    }
+    g_n = 0;
+    h_n = 0;
+    output = "";
+    parent = nullptr;
+    up = nullptr;
+    down = nullptr;
+    left = nullptr;
+    right = nullptr;
 }
 
 bool Node::operator<(const Node &rhs) const{
-    return this->g_n < rhs.g_n;
+    return (this->g_n + this->h_n) < (rhs.g_n + rhs.h_n);
 }
 
 void Node::setBoard(int array[NODE_BOARD_SIZE_X][NODE_BOARD_SIZE_Y]) {
@@ -26,12 +39,17 @@ void Node::seth_n(int h){
     h_n = h;
 }
 
+void Node::setoutput(std::string input) {
+    output.append(input);
+}
+
 void Node::createChildren(){
     //see if up, down, left, right works
     int blank_x;
     int blank_y;
     int temp[NODE_BOARD_SIZE_X][NODE_BOARD_SIZE_Y];
 
+    //fill temp board
     for(int i = 0; i < NODE_BOARD_SIZE_X; ++i){
         for(int j = 0; j < NODE_BOARD_SIZE_Y; ++j){
             if(board[i][j] == 0){
@@ -53,8 +71,6 @@ void Node::createChildren(){
         this->up = new Node();
         this->up->setBoard(temp);
         this->up->parent = this;
-        this->up->setg_n(this->g_n + 1);
-        this->up->seth_n(0);
     }
     
     //set down tile
@@ -69,7 +85,6 @@ void Node::createChildren(){
         this->down = new Node();
         this->down->setBoard(temp);
         this->down->parent = this;
-        this->down->setg_n(0);
     }
 
     //set left tile
@@ -84,7 +99,6 @@ void Node::createChildren(){
         this->left = new Node();
         this->left->setBoard(temp);
         this->left->parent = this;
-        this->left->setg_n(0);
     }
 
     //set right tile
@@ -99,7 +113,6 @@ void Node::createChildren(){
         this->right = new Node();
         this->right->setBoard(temp);
         this->right->parent = this;
-        this->right->setg_n(0);
     }
 }
 
@@ -116,4 +129,30 @@ void Node::printNode(){
     else{
         cout<< "EMPTY NODE";
     }
+}
+
+void Node::printOutput() {
+    cout << output;
+}
+
+bool Node::checkIfGoal() {
+    //node->printNode();
+    int tempTile = board[0][0];
+
+    for (int i = 0; i < NODE_BOARD_SIZE_X; ++i) {
+        for (int j = 0; j < NODE_BOARD_SIZE_Y; ++j) {
+            if (tempTile > board[i][j]) {
+                if (i >= NODE_BOARD_SIZE_X - 1 && j >= NODE_BOARD_SIZE_Y - 1) { // implied last tile is 0
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                tempTile = board[i][j];
+            }
+        }
+    }
+    return true;
 }

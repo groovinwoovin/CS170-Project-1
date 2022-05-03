@@ -4,6 +4,5 @@
 #include "node.h"
 
 void UCSearch(Node* startnode);
-bool checkIfGoal(Node* node);
 
 #endif //__UCSEARCH_H__
