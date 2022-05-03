@@ -8,6 +8,12 @@ using namespace std;
 //vector for the frontier
 std::priority_queue<Node*, std::vector<Node*>, std::greater<Node*>> MTfrontier;
 std::vector<Node*> explored_set_MT;
+
+// toggle debugMT if you would like to see the queue size
+std::vector<int> queuesizesMT;
+bool debugMT = true;
+int nodesExpMT = 0;
+
 Node* currentNodeMT;
 
 void AstarMT(Node* startnode) {
@@ -23,6 +29,10 @@ void AstarMT(Node* startnode) {
 
     MTfrontier.push(startnode); //Add initial node to frontier
 
+    if (debugMT) { //debugMT
+        queuesizesMT.push_back(MTfrontier.size());
+    }
+
     // POP top, if goal state, end else create children and add those to frontier
     while (!MTfrontier.top()->checkIfGoal()) {
         if (std::find(explored_set_MT.begin(), explored_set_MT.end(), MTfrontier.top()) != explored_set_MT.end()) {
@@ -31,6 +41,10 @@ void AstarMT(Node* startnode) {
         else {
             currentNodeMT = MTfrontier.top();
             currentNodeMT->createChildren();
+            
+            if (debugMT) {
+                nodesExpMT++;
+            }
 
             //Set g_n and h_n for children
             if (currentNodeMT->up != nullptr) {
@@ -70,11 +84,19 @@ void AstarMT(Node* startnode) {
                 MTfrontier.push(currentNodeMT->right);
             }
         }
+        if (debugMT) {
+            queuesizesMT.push_back(MTfrontier.size());
+        }
     }
 
     std::cout << "Solution is: \n";
     currentNodeMT = MTfrontier.top();
     currentNodeMT->printOutput();
+
+    if (debugMT) {
+        cout << "Max number of nodes is: " << *max_element(queuesizesMT.begin(), queuesizesMT.end());
+        cout << "\nExpanded nodes is: " << nodesExpMT;
+    }
 }
 
 int calculateMTHeuristic(Node* node) {
